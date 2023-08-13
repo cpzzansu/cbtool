@@ -36,6 +36,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">주제 브레인스토밍</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">회원가입신청목록</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -47,57 +50,14 @@
 
     <div class="container col-md-12 col-sm-12">
         <div class="d-flex justify-content-center align-items-center">
-            <div class="main-font text-center" id="title">로그인</div>
+            <div class="main-font text-center" contenteditable="true" id="title">브레인스토밍</div>
         </div>
+        <div class="h-blank-60"></div>
     </div>
 
     <div class="container d-flex justify-content-center align-items-center">
-        <div class="main-form" id="loginForm">
-            <div class="h-blank-60"></div>
-            <form action="/login" method="POST" data-parsley-validate>
-                <div class="mb-3">
-                    <label for="memberEmail" class="form-label">이메일</label>
-                    <input type="email" class="form-control" id="memberEmail" required="required" aria-describedby="emailHelp"
-                           name="memberEmail" placeholder="이메일 주소를 입력하세요.">
-                </div>
-                <div class="mb-3">
-                    <label for="memberPw" class="form-label">비밀번호</label>
-                    <input type="password" class="form-control" id="memberPw"  name="memberPw" required="required" aria-describedby="password">
-                </div>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-danger" type="submit" id="loginBtn">이메일로 계속하기</button>
-                </div>
-            </form>
-            <a href="#" id="addMemberRequest">회원가입 신청하기</a>
-        </div>
-        <div class="main-form" id="addForm" style="display: none">
-            <div class="h-blank-60"></div>
-            <form action="/login" method="POST" id="addMemberForm" data-parsley-validate>
-                <div class="mb-3">
-                    <label for="addMemberEmail" class="form-label">이메일</label>
-                    <input type="email" class="form-control" id="addMemberEmail" required="required" data-parsley-email-check
-                           aria-describedby="emailHelp" name="memberEmail" placeholder="이메일 주소를 입력하세요.">
-                </div>
-                <div class="mb-3">
-                    <label for="addMemberPw" class="form-label">비밀번호</label>
-                    <input type="password" class="form-control" id="addMemberPw"  name="memberPw" required="required" aria-describedby="password">
-                </div>
-                <div class="mb-3">
-                    <label for="addMemberName" class="form-label">이름</label>
-                    <input type="text" class="form-control" id="addMemberName"  name="memberName" required="required" aria-describedby="yourName">
-                </div>
-                <div class="mb-3">
-                    <label for="addMemberPhone" class="form-label">전화번호</label>
-                    <input type="phone" class="form-control" id="addMemberPhone"  name="memberPhome" required="required" aria-describedby="phoneNumber">
-                </div>
-                <div class="mb-3">
-                    <label for="emailCode" class="form-label">이메일 인증코드</label>
-                    <input type="text" class="form-control" id="emailCode" required="required" aria-describedby="emailCode" disabled>
-                </div>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-danger" type="submit" id="addMemberBtn">회원가입 신청하기</button>
-                </div>
-            </form>
+        <div class="pct-content" id="maincontent" th:utext="${html}">
+
         </div>
     </div>
     <script th:src="@{/js/jquery-3.7.0.js}"></script>
@@ -185,6 +145,8 @@
             alert('인증번호가 틀렸습니다.');
         }
     })
+
+    // html 요소 값 클라이언트 측에서 바꿀 수 있게 하기
 
 
 </script>

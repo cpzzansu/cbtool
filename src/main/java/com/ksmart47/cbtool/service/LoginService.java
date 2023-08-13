@@ -39,7 +39,7 @@ public class LoginService {
                 !dbMember.getMemberPw().equals(member.getMemberPw())) {
             resultMap.put("msg", "비밀번호가 틀렸습니다.");
         } else if (dbMember == null) {
-            resultMap.put("msg", "가입된 정보가 없습니다.");
+            resultMap.put("msg", "가입되지 않은 E-Mail입니다.");
         }
 
         resultMap.put("isValid", isValid);

@@ -79,6 +79,11 @@
         </div>
     </div>
 </body>
+<script type="text/javascript" th:inline="javascript">
+    let msg = '[[${msg}]]';
+    msg = msg.replace(/^"|"$/g, '');
+    if (msg != 'null') alert(msg);
+</script>
 <script type="text/javascript">
 
     document.getElementById('addMemberRequest').addEventListener('click', function(e){

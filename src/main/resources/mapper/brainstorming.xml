@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ksmart47.cbtool.mapper.BrainstormingMapper">
+  <resultMap id="brainstormingResultMap" type="Brainstorming">
+    <id column="id" property="id"/>
+    <result column="html_content" property="htmlContent"/>
+  </resultMap>
+
+
+  <select id="getBrainstorming" resultType="Brainstorming">
+    SELECT
+      id,
+      html_content
+    FROM
+      brainstorming
+  </select>
+
+
+
+</mapper>
