@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @AllArgsConstructor
@@ -20,6 +22,30 @@ public class LoginService {
 
     private final LoginMapper loginMapper;
     private final JavaMailSender emailSender;
+
+    public Map<String, Object> login(Member member){
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        boolean isValid = false;
+
+        Member dbMember = loginMapper.emailCheck(member);
+
+        if(dbMember != null &&
+           dbMember.getMemberPw().equals(member.getMemberPw())){
+            isValid = true;
+            resultMap.put("member", dbMember);
+        } else if (dbMember != null &&
+                !dbMember.getMemberPw().equals(member.getMemberPw())) {
+            resultMap.put("msg", "비밀번호가 틀렸습니다.");
+        } else if (dbMember == null) {
+            resultMap.put("msg", "가입된 정보가 없습니다.");
+        }
+
+        resultMap.put("isValid", isValid);
+
+        return resultMap;
+    }
 
     public String emailCheck(Member member){
 
