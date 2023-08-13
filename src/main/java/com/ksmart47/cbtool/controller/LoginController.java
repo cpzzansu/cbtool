@@ -34,7 +34,7 @@ public class LoginController {
             session.setAttribute("S_NAME", memberName);
             model.addAttribute("title", "PCT main");
 
-            return "collaboration_tool/collaboration_tool";
+            return "redirect:/collaborationTool/collaborationTool";
         }
 
         String msg = (String) resultMap.get("msg");
