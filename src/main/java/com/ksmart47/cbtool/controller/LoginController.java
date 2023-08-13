@@ -1,7 +1,7 @@
 package com.ksmart47.cbtool.controller;
 
-import com.ksmart47.collaborationtool.dto.Member;
-import com.ksmart47.collaborationtool.service.LoginService;
+import com.ksmart47.cbtool.dto.Member;
+import com.ksmart47.cbtool.service.LoginService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
