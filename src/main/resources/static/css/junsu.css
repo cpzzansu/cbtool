@@ -1,0 +1,185 @@
+body {
+    font-family: inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+body form{
+    font-family: inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.main-font{
+    font-family: inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    color: rgb(4, 4, 4);
+    fill: currentcolor;
+    -webkit-font-smoothing: antialiased;
+    font-size: 60px;
+    font-weight: 700;
+    margin-top: 110px;
+    margin-bottom: 24px;
+    text-align: center;
+    line-height: 1.1;
+    max-width: 500px;
+    box-sizing: border-box;
+    outline: 0;
+    display: block;
+    -webkit-text-size-adjust: 100%;
+}
+.main-logo{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.logo-font{
+    font-family: inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    color: rgb(4, 4, 4);
+    fill: currentcolor;
+    font-size: 25px;
+    margin-left: 13px;
+}
+.pct-logo-font{
+    font-family: inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    color: rgb(4, 4, 4);
+    fill: currentcolor;
+    width: 100px;
+    font-weight: bold;
+    font-size: 25px;
+    margin-left: 13px;
+}
+#pct-logo{
+    width: 100px;
+}
+.main-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 430px;
+    margin-bottom: 16vh;
+    color: rgb(4, 4, 4);
+    fill: currentcolor;
+    line-height: 1.5;
+    font-family: inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+}
+.main-form form{
+    width: 100%;
+}
+.h-blank-60{
+    height: 60px;
+}
+#memberEmail{
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+}
+#memberPw{
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+}
+#addMemberEmail{
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+}
+#addMemberPw{
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+}
+#addMemberName{
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+}
+#addMemberPhone{
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+}
+#emailCode{
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+}
+#loginBtn{
+    height: 50px;
+    font-size: 1.2rem;
+    --bs-btn-color: rgb(235, 87, 87);
+    --bs-btn-border-color: rgb(235, 87, 87);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: rgb(235, 87, 87);
+    --bs-btn-hover-border-color: rgb(235, 87, 87);
+    --bs-btn-focus-shadow-rgb: 220, 53, 69;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: rgb(235, 87, 87);
+    --bs-btn-active-border-color: rgb(235, 87, 87);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: rgb(235, 87, 87);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: rgb(235, 87, 87);
+    --bs-gradient: none;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+#addMemberBtn{
+    height: 50px;
+    font-size: 1.2rem;
+    --bs-btn-color: rgb(235, 87, 87);
+    --bs-btn-border-color: rgb(235, 87, 87);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: rgb(235, 87, 87);
+    --bs-btn-hover-border-color: rgb(235, 87, 87);
+    --bs-btn-focus-shadow-rgb: 220, 53, 69;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: rgb(235, 87, 87);
+    --bs-btn-active-border-color: rgb(235, 87, 87);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: rgb(235, 87, 87);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: rgb(235, 87, 87);
+    --bs-gradient: none;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+#addMemberRequest{
+    font-family: inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    color: rgb(4, 4, 4);
+}
+#addMemberRequest:hover {
+    color: rgb(235, 87, 87);
+}
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+    color: #468847;
+    background-color: #DFF0D8;
+    border: 1px solid #D6E9C6;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+    color: rgb(235, 87, 87);
+    background-color: #F2DEDE;
+    border: 1px solid #EED3D7;
+}
+
+.parsley-errors-list {
+    margin: 2px 0 3px;
+    padding: 0;
+    list-style-type: none;
+    font-size: 0.9em;
+    line-height: 0.9em;
+    opacity: 0;
+    color: rgb(235, 87, 87);
+
+    transition: all .3s ease-in;
+    -o-transition: all .3s ease-in;
+    -moz-transition: all .3s ease-in;
+    -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+    opacity: 1;
+}
+.blank-nav{
+    width: 50px;
+}

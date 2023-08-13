@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>47기 사이드 프로젝트 팀 협업 도구</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/junsu.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap.rtl.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-grid.rtl.css}">
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-reboot.css"> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-reboot.rtl.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.rtl.css}">
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" id="pct-logo row" href="#">
+
+                <div class="pct-logo-font"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-box2" viewBox="0 0 16 16">
+                    <path d="M2.95.4a1 1 0 0 1 .8-.4h8.5a1 1 0 0 1 .8.4l2.85 3.8a.5.5 0 0 1 .1.3V15a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4.5a.5.5 0 0 1 .1-.3L2.95.4ZM7.5 1H3.75L1.5 4h6V1Zm1 0v3h6l-2.25-3H8.5ZM15 5H1v10h14V5Z"/>
+                </svg>&nbsp;&nbsp; PCT</div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <div class="blank-nav">
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">주제 브레인스토밍</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="main-logo d-flex">
+
+
+    </div>
+
+    <div class="container col-md-12 col-sm-12">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="main-font text-center" id="title">로그인</div>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="main-form" id="loginForm">
+            <div class="h-blank-60"></div>
+            <form action="/login" method="POST" data-parsley-validate>
+                <div class="mb-3">
+                    <label for="memberEmail" class="form-label">이메일</label>
+                    <input type="email" class="form-control" id="memberEmail" required="required" aria-describedby="emailHelp"
+                           name="memberEmail" placeholder="이메일 주소를 입력하세요.">
+                </div>
+                <div class="mb-3">
+                    <label for="memberPw" class="form-label">비밀번호</label>
+                    <input type="password" class="form-control" id="memberPw"  name="memberPw" required="required" aria-describedby="password">
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-danger" type="submit" id="loginBtn">이메일로 계속하기</button>
+                </div>
+            </form>
+            <a href="#" id="addMemberRequest">회원가입 신청하기</a>
+        </div>
+        <div class="main-form" id="addForm" style="display: none">
+            <div class="h-blank-60"></div>
+            <form action="/login" method="POST" id="addMemberForm" data-parsley-validate>
+                <div class="mb-3">
+                    <label for="addMemberEmail" class="form-label">이메일</label>
+                    <input type="email" class="form-control" id="addMemberEmail" required="required" data-parsley-email-check
+                           aria-describedby="emailHelp" name="memberEmail" placeholder="이메일 주소를 입력하세요.">
+                </div>
+                <div class="mb-3">
+                    <label for="addMemberPw" class="form-label">비밀번호</label>
+                    <input type="password" class="form-control" id="addMemberPw"  name="memberPw" required="required" aria-describedby="password">
+                </div>
+                <div class="mb-3">
+                    <label for="addMemberName" class="form-label">이름</label>
+                    <input type="text" class="form-control" id="addMemberName"  name="memberName" required="required" aria-describedby="yourName">
+                </div>
+                <div class="mb-3">
+                    <label for="addMemberPhone" class="form-label">전화번호</label>
+                    <input type="phone" class="form-control" id="addMemberPhone"  name="memberPhome" required="required" aria-describedby="phoneNumber">
+                </div>
+                <div class="mb-3">
+                    <label for="emailCode" class="form-label">이메일 인증코드</label>
+                    <input type="text" class="form-control" id="emailCode" required="required" aria-describedby="emailCode" disabled>
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-danger" type="submit" id="addMemberBtn">회원가입 신청하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery-3.7.0.js}"></script>
+    <script th:src="@{/js/parsley.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+<script type="text/javascript">
+
+
+    document.getElementById('addMemberRequest').addEventListener('click', function(e){
+        e.preventDefault();
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('title').innerHTML='회원가입신청';
+        document.getElementById('addForm').style.display = 'block';
+    })
+
+    let randomEmailCode;
+
+    function sendEmailCode(to){
+        $.ajax({
+            url: '/sendEmailCode',
+            method: 'POST',
+            data: to,
+            contentType: 'text/plain',
+            dataType: 'text',
+            success: function(response){
+                randomEmailCode = response;
+                console.log(randomEmailCode);
+            },
+            fail: function(jqXHR, textStatus, errorThrown){
+                alert('오류가 발생했습니다. ' + textStatus + ': ' + errorThrown);
+            }
+        })
+    }
+
+    // email 중복 커스텀 Parsely 유효성 검사
+    window.Parsley.addValidator('emailCheck', {
+        validateString: function(value) {
+            var xhr = $.ajax({
+                url: '/emailCheck',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    memberEmail: value
+                }),
+                dataType: 'text',
+                async: false
+            });
+
+            return xhr.status === 200 && xhr.responseText !== "true";
+        },
+        messages: {
+            en: '이 이메일은 이미 사용 중입니다.'
+        }
+    });
+
+    $(document).ready(function (){
+        $('#addForm').parsley();
+    })
+
+    $('#addMemberEmail').on('blur', function (){
+        let checkResult = $(this).parsley().validate();
+        if(checkResult === true){
+            let $addMemberEmailVal = $(this).val();
+            sendEmailCode($addMemberEmailVal);
+            $('#emailCode').removeAttr('disabled');
+            alert('\'' + $addMemberEmailVal + '\'' + ' 로 인증코드를 발송했습니다.')
+        } else {
+            $('#emailCode').prop('disabled', true);
+        }
+
+    })
+
+    $('#addMemberEmail').on('focus', function (){
+        $(this).parsley().reset();
+    })
+
+    $('#addMemberBtn').on('click', function(e){
+        e.preventDefault();
+        let $emailCodeVal = $('#emailCode').val();
+        console.log($emailCodeVal === randomEmailCode);
+        if($emailCodeVal === randomEmailCode){
+            $('#addMemberForm').submit();
+        } else {
+            alert('인증번호가 틀렸습니다.');
+        }
+    })
+
+
+</script>
+</html>
