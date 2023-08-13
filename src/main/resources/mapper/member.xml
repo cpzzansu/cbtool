@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ksmart47.cbtool.mapper.LoginMapper">
+  <resultMap id="memberResultMap" type="Member">
+    <id column="member_email" property="memberEmail"/>
+    <result column="member_pw" property="memberPw"/>
+    <result column="member_name" property="memberName"/>
+    <result column="member_phone" property="memberPhone"/>
+  </resultMap>
+
+  <select id="emailCheck" parameterType="Member" resultType="Member">
+    SELECT
+      member_email,
+      member_pw,
+      member_name,
+      member_phone
+    FROM
+      member
+    WHERE
+      member_email = #{memberEmail}
+  </select>
+
+
+
+</mapper>
