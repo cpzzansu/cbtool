@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-reboot.rtl.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.rtl.css}">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 
 </head>
 <body>
@@ -57,96 +57,70 @@
 
     <div class="container d-flex justify-content-center align-items-center">
         <div class="pct-content" id="maincontent" th:utext="${html}">
-
+            <h1 contenteditable="true" id="subject">새 프로젝트 주제는?</h1>
+            <li class="li-font" contenteditable="true" id="listEle">하하</li>
         </div>
     </div>
     <script th:src="@{/js/jquery-3.7.0.js}"></script>
     <script th:src="@{/js/parsley.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
 </body>
 <script type="text/javascript">
+    const socket = new WebSocket('ws://localhost:80/my-websocket-endpoint');
 
+    socket.onopen = () => {
+        console.log('Connected to the document server');
+    };
 
-    document.getElementById('addMemberRequest').addEventListener('click', function(e){
-        e.preventDefault();
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('title').innerHTML='회원가입신청';
-        document.getElementById('addForm').style.display = 'block';
-    })
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        applyChangesToDocument(data);
+    };
 
-    let randomEmailCode;
+    socket.onclose = () => {
+        console.log('Connection closed');
+    };
 
-    function sendEmailCode(to){
-        $.ajax({
-            url: '/sendEmailCode',
-            method: 'POST',
-            data: to,
-            contentType: 'text/plain',
-            dataType: 'text',
-            success: function(response){
-                randomEmailCode = response;
-                console.log(randomEmailCode);
-            },
-            fail: function(jqXHR, textStatus, errorThrown){
-                alert('오류가 발생했습니다. ' + textStatus + ': ' + errorThrown);
-            }
-        })
-    }
-
-    // email 중복 커스텀 Parsely 유효성 검사
-    window.Parsley.addValidator('emailCheck', {
-        validateString: function(value) {
-            var xhr = $.ajax({
-                url: '/emailCheck',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    memberEmail: value
-                }),
-                dataType: 'text',
-                async: false
-            });
-
-            return xhr.status === 200 && xhr.responseText !== "true";
-        },
-        messages: {
-            en: '이 이메일은 이미 사용 중입니다.'
-        }
-    });
+    socket.onerror = (error) => {
+        console.error('An error occurred:', error);
+    };
 
     $(document).ready(function (){
-        $('#addForm').parsley();
+        $('#maincontent').keydown(function (event){
+            if(event.key === 'Enter' || event.keyCode === 13){
+                event.preventDefault(); // 기본 엔터 동작 막기
+
+                let selection = window.getSelection();
+                let range = selection.getRangeAt(0);
+                let node = range.startContainer;
+                console.log(selection);
+                console.log(range);
+                console.log(node);
+
+                // 텍스트 노드일 경우 부모 노드 선택
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node = node.parentNode;
+                }
+
+                const newId = uuid.v4();
+
+                let parentId = $(node).attr('id');
+                const $clonedId = $(`#${parentId}`).clone();
+                $clonedId.text('').attr('id', newId);
+
+                $(`#${parentId}`).after($clonedId);
+
+                $(`#${newId}`).focus();
+            }
+        })
     })
 
-    $('#addMemberEmail').on('blur', function (){
-        let checkResult = $(this).parsley().validate();
-        if(checkResult === true){
-            let $addMemberEmailVal = $(this).val();
-            sendEmailCode($addMemberEmailVal);
-            $('#emailCode').removeAttr('disabled');
-            alert('\'' + $addMemberEmailVal + '\'' + ' 로 인증코드를 발송했습니다.')
-        } else {
-            $('#emailCode').prop('disabled', true);
-        }
-
-    })
-
-    $('#addMemberEmail').on('focus', function (){
-        $(this).parsley().reset();
-    })
-
-    $('#addMemberBtn').on('click', function(e){
-        e.preventDefault();
-        let $emailCodeVal = $('#emailCode').val();
-        console.log($emailCodeVal === randomEmailCode);
-        if($emailCodeVal === randomEmailCode){
-            $('#addMemberForm').submit();
-        } else {
-            alert('인증번호가 틀렸습니다.');
-        }
-    })
-
-    // html 요소 값 클라이언트 측에서 바꿀 수 있게 하기
+    document.getElementById('maincontent').addEventListener('input', (event) => {
+        const changes = detectChanges(event); // 변경사항을 감지하는 로직이 필요합니다.
+        console.log(changes);
+        
+    });
 
 
 </script>

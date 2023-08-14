@@ -8,7 +8,6 @@
     <result column="html_content" property="htmlContent"/>
   </resultMap>
 
-
   <select id="getBrainstorming" resultType="Brainstorming">
     SELECT
       id,
