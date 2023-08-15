@@ -14,6 +14,12 @@
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.rtl.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let orderList = /*[[${orderList}]]*/ [];
+        console.log(orderList);
+        /*]]>*/
+    </script>
 
 </head>
 <body>
@@ -56,9 +62,8 @@
     </div>
 
     <div class="container d-flex justify-content-center align-items-center">
-        <div class="pct-content" id="maincontent" th:utext="${html}">
-            <h1 contenteditable="true" id="subject">새 프로젝트 주제는?</h1>
-            <li class="li-font" contenteditable="true" id="listEle">하하</li>
+        <div class="pct-content" id="maincontent">
+            <div th:each="html : ${htmlList}" th:utext="${html}"></div>
         </div>
     </div>
     <script th:src="@{/js/jquery-3.7.0.js}"></script>
@@ -85,6 +90,46 @@
     socket.onerror = (error) => {
         console.error('An error occurred:', error);
     };
+
+    let orderModifyDataArr = [];
+    let orderAddDataArr = [];
+
+    function arraysEqual(arr1, arr2) {
+
+        orderModifyDataArr = [];
+        orderAddDataArr = [];
+        let isAjax = false;
+
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr2[i] === null) {
+                orderAddDataArr.push({orderNumber: i, orderEleId: arr1[i]});
+                isAjax = true;
+            } else if (arr1[i] !== arr2[i]) {
+                orderModifyDataArr.push({orderNumber: i, orderEleId: arr1[i]});
+                isAjax = true;
+            }
+        }
+
+        if(isAjax){
+            $.ajax({
+                url: '/collaborationTool/changeOrder',
+                method: 'POST',
+                contentType: 'application/json',
+                data: {
+                    orderAddDataArr: orderAddDataArr,
+                    orderModifyDataArr: orderModifyDataArr
+                },
+                success: function (){
+
+                },
+                fail:function(jqXHR, textStatus, errorThrown) {
+                    alert('오류가 발생했습니다. ' + textStatus + ': ' + errorThrown);
+                }
+            })
+        }
+
+
+    }
 
     $(document).ready(function (){
         $('#maincontent').keydown(function (event){
@@ -116,12 +161,29 @@
         })
     })
 
-    document.getElementById('maincontent').addEventListener('input', (event) => {
-        const changes = detectChanges(event); // 변경사항을 감지하는 로직이 필요합니다.
-        console.log(changes);
-        
-    });
+    $(document).on('input', function (e){
 
+        let id = $(e.target).attr('id');
+        sendSocket(id);
+
+        let textEleArr = [];
+
+        $('.textEle').each(function (){
+            let textEleId = $(this).attr('id');
+            textEleArr.push(textEleId);
+        })
+
+        arraysEqual(textEleArr, orderList);
+
+    })
+    
+    function sendSocket(id){
+        const htmlContent = $(`#${id}`)[0].outerHTML;
+        socket.send(JSON.stringify({
+            id: id,
+            htmlContent: htmlContent
+        }));
+    }
 
 </script>
 </html>

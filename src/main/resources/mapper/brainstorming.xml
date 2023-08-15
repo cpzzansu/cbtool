@@ -8,14 +8,62 @@
     <result column="html_content" property="htmlContent"/>
   </resultMap>
 
-  <select id="getBrainstorming" resultType="Brainstorming">
+  <resultMap id="brainstormingOrderResultMap" type="BrainstormingOrder">
+    <id column="order_number" property="orderNumber"/>
+    <result column="order_ele_id" property="orderEleId"/>
+  </resultMap>
+
+
+  <select id="getBrainStormingById" parameterType="String" resultMap="brainstormingResultMap">
     SELECT
       id,
       html_content
     FROM
       brainstorming
+    WHERE
+      id = #{id}
   </select>
-
-
+  <select id="checkId" resultType="Brainstorming">
+    SELECT
+      id,
+      html_content
+    FROM
+      brainstorming
+    WHERE
+      id = #{id}
+  </select>
+  <insert id="addBrainstorming" parameterType="Brainstorming">
+    INSERT INTO brainstorming
+      (id, html_content)
+    VALUES
+      (#{id}, #{htmlContent})
+  </insert>
+  <update id="modifyBrainstorming" parameterType="Brainstorming">
+    UPDATE brainstorming
+    SET html_content = #{htmlContent}
+    WHERE id = #{id}
+  </update>
+  <select id="getOrder" resultMap="brainstormingOrderResultMap">
+    SELECT
+      order_number, order_ele_id
+    FROM
+      brainstorming_order
+    ORDER BY
+      CONVERT(order_number, UNSIGNED)
+  </select>
+  <insert id="addBrainstormingOrder" parameterType="list">
+    INSERT INTO brainstorming_order (order_number, order_ele_id)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.orderNumber}, #{item.orderEleId})
+    </foreach>
+  </insert>
+  <update id="modifyBrainstormingOrder" parameterType="list">
+    <foreach collection="list" item="item" index="index" separator=";">
+      UPDATE brainstorming_order
+      SET order_ele_id = #{item.orderEleId}
+      WHERE order_number = #{item.orderNumber}
+    </foreach>
+  </update>
 
 </mapper>
