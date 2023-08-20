@@ -1,6 +1,7 @@
 package com.ksmart47.cbtool.controller;
 
 import com.ksmart47.cbtool.dto.BrainstormingOrder;
+import com.ksmart47.cbtool.dto.ChangeOrderData;
 import com.ksmart47.cbtool.service.BrainstormingService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class BrainstormingOrderController {
     @ResponseBody
     @PostMapping("/collaborationTool/changeOrder")
     public void changeOrder(@RequestBody ChangeOrderData changeOrderData){
+        System.out.println(changeOrderData);
         List<BrainstormingOrder> addList = changeOrderData.getOrderAddDataArr();
         List<BrainstormingOrder> modifyList = changeOrderData.getOrderModifyDataArr();
         if(addList != null){
@@ -31,9 +33,4 @@ public class BrainstormingOrderController {
         }
     }
 
-    @Data
-    class ChangeOrderData{
-        private final List<BrainstormingOrder> orderAddDataArr;
-        private final List<BrainstormingOrder> orderModifyDataArr;
-    }
 }
