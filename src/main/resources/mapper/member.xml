@@ -8,6 +8,7 @@
     <result column="member_pw" property="memberPw"/>
     <result column="member_name" property="memberName"/>
     <result column="member_phone" property="memberPhone"/>
+    <result column="member_level" property="memberLevel"/>
   </resultMap>
 
   <select id="emailCheck" parameterType="Member" resultType="Member">
@@ -15,12 +16,40 @@
       member_email,
       member_pw,
       member_name,
-      member_phone
+      member_phone,
+      member_level
     FROM
       member
     WHERE
       member_email = #{memberEmail}
   </select>
+
+  <insert id="addMember" parameterType="Member">
+    INSERT INTO member
+    (member_email, member_pw, member_name, member_phone, member_level)
+    VALUES(#{memberEmail}, #{memberPw}, #{memberName}, #{memberPhone}, #{memberLevel});
+
+  </insert>
+
+  <select id="applicationList" resultMap="memberResultMap">
+    SELECT
+      member_email,
+      member_pw,
+      member_name,
+      member_phone,
+      member_level
+    FROM
+      member
+    WHERE
+      member_level = 2;
+  </select>
+
+  <update id="levelUpdate" parameterType="String">
+    UPDATE member
+    SET member_level=1
+    WHERE member_email=#{memberEmail};
+  </update>
+
 
 
 

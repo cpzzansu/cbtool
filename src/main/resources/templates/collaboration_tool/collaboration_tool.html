@@ -1,215 +1,163 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>47기 사이드 프로젝트 팀 협업 도구</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/junsu.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap.rtl.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-grid.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-grid.rtl.css}">
-    <!-- <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-reboot.css"> -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-reboot.rtl.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap-5.3.1/dist/css/bootstrap-utilities.rtl.css}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let orderList = /*[[${orderList}]]*/ [];
-        console.log(orderList);
-        /*]]>*/
-    </script>
+<html layout:decorate="~{layout/default}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeLeaf.org">
+    <head>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            let orderList = /*[[${orderList}]]*/ [];
+            console.log(orderList);
+            /*]]>*/
+        </script>
+    </head>
+    <th:block layout:fragment="customContents">
 
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" id="pct-logo row" href="#">
-
-                <div class="pct-logo-font"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-box2" viewBox="0 0 16 16">
-                    <path d="M2.95.4a1 1 0 0 1 .8-.4h8.5a1 1 0 0 1 .8.4l2.85 3.8a.5.5 0 0 1 .1.3V15a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4.5a.5.5 0 0 1 .1-.3L2.95.4ZM7.5 1H3.75L1.5 4h6V1Zm1 0v3h6l-2.25-3H8.5ZM15 5H1v10h14V5Z"/>
-                </svg>&nbsp;&nbsp; PCT</div>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <div class="blank-nav">
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">주제 브레인스토밍</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">회원가입신청목록</a>
-                    </li>
-                </ul>
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="pct-content" id="maincontent">
+                <div th:each="html : ${htmlList}" th:utext="${html}"></div>
             </div>
         </div>
-    </nav>
-    <div class="main-logo d-flex">
 
+    </th:block>
+    <th:block layout:fragment="customJs">
+        <script type="text/javascript">
+            const socket = new WebSocket('ws://localhost:80/my-websocket-endpoint');
 
-    </div>
+            socket.onopen = () => {
+                console.log('Connected to the document server');
+            };
 
-    <div class="container col-md-12 col-sm-12">
-        <div class="d-flex justify-content-center align-items-center">
-            <div class="main-font text-center" contenteditable="true" id="title">브레인스토밍</div>
-        </div>
-        <div class="h-blank-60"></div>
-    </div>
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                applyChangesToDocument(data);
+            };
 
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="pct-content" id="maincontent">
-            <div th:each="html : ${htmlList}" th:utext="${html}"></div>
-        </div>
-    </div>
-    <div class="footer-h-black"></div>
-    <script th:src="@{/js/jquery-3.7.0.js}"></script>
-    <script th:src="@{/js/parsley.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+            socket.onclose = () => {
+                console.log('Connection closed');
+            };
 
-</body>
-<script type="text/javascript">
-    const socket = new WebSocket('ws://localhost:80/my-websocket-endpoint');
+            socket.onerror = (error) => {
+                console.error('An error occurred:', error);
+            };
 
-    socket.onopen = () => {
-        console.log('Connected to the document server');
-    };
+            let orderModifyDataArr = [];
+            let orderAddDataArr = [];
 
-    socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        applyChangesToDocument(data);
-    };
+            function arraysEqual(arr1, arr2) {
 
-    socket.onclose = () => {
-        console.log('Connection closed');
-    };
+                orderModifyDataArr = [];
+                orderAddDataArr = [];
+                let isAjax = false;
 
-    socket.onerror = (error) => {
-        console.error('An error occurred:', error);
-    };
+                for (let i = 0; i < arr1.length; i++) {
 
-    let orderModifyDataArr = [];
-    let orderAddDataArr = [];
-
-    function arraysEqual(arr1, arr2) {
-
-        orderModifyDataArr = [];
-        orderAddDataArr = [];
-        let isAjax = false;
-
-        for (let i = 0; i < arr1.length; i++) {
-
-            console.log(arr2[i]);
-            let arr1EleId = arr1[i].orderEleId;
-            let arr2EleId;
-            if (arr2[i] === undefined) {
-                orderAddDataArr.push(arr1[i]);
-                isAjax = true;
-                break;
-            } else {
-                arr2EleId = arr2[i].orderEleId;
-            }
-            if (arr1EleId !== arr2EleId) {
-                orderModifyDataArr.push({orderNumber: i, orderEleId: arr1[i].orderEleId});
-                isAjax = true;
-            }
-        }
-
-        if(isAjax){
-            $.ajax({
-                url: '/collaborationTool/changeOrder',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    orderAddDataArr: orderAddDataArr,
-                    orderModifyDataArr: orderModifyDataArr
-                }),
-                success: function (){
-
-                },
-                fail:function(jqXHR, textStatus, errorThrown) {
-                    alert('오류가 발생했습니다. ' + textStatus + ': ' + errorThrown);
-                }
-            })
-        }
-    }
-
-
-    $(document).ready(function (){
-        $('#maincontent').keydown(function (event){
-            if(event.key === 'Enter' || event.keyCode === 13){
-                event.preventDefault(); // 기본 엔터 동작 막기
-                if(!event.originalEvent.isComposing){
-
-                    let selection = window.getSelection();
-                    let range = selection.getRangeAt(0);
-                    let node = range.startContainer;
-                    let startOffset = range.startOffset; // 여기를 시작점으로 설정
-
-// 새로운 범위를 설정하기 위해 기존 범위를 복제
-                    let newRange = range.cloneRange();
-                    newRange.setStart(range.startContainer, startOffset);
-                    newRange.setEnd(range.startContainer, range.startContainer.length);
-
-// 범위 내의 텍스트 추출
-                    let remainingText = newRange.toString();
-                    console.log(remainingText); // 시작점 뒤의 모든 글자를 출력
-
-                    console.log(selection);
-                    console.log(range);
-                    console.log(node);
-
-
-                    // 텍스트 노드일 경우 부모 노드 선택
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        node = node.parentNode;
+                    console.log(arr2[i]);
+                    let arr1EleId = arr1[i].orderEleId;
+                    let arr2EleId;
+                    if (arr2[i] === undefined) {
+                        orderAddDataArr.push(arr1[i]);
+                        isAjax = true;
+                        break;
+                    } else {
+                        arr2EleId = arr2[i].orderEleId;
                     }
+                    if (arr1EleId !== arr2EleId) {
+                        orderModifyDataArr.push({orderNumber: i, orderEleId: arr1[i].orderEleId});
+                        isAjax = true;
+                    }
+                }
 
-                    const newId = uuid.v4();
+                if(isAjax){
+                    $.ajax({
+                        url: '/collaborationTool/changeOrder',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            orderAddDataArr: orderAddDataArr,
+                            orderModifyDataArr: orderModifyDataArr
+                        }),
+                        success: function (){
 
-                    let parentId = $(node).attr('id');
-
-                    let $liCreate = $('<li>').attr('class', 'li-font textEle').attr('contenteditable', 'true')
-                            .attr('id', newId);
-
-                    $(`#${parentId}`).after($liCreate);
-
-                    $(`#${newId}`).focus();
+                        },
+                        fail:function(jqXHR, textStatus, errorThrown) {
+                            alert('오류가 발생했습니다. ' + textStatus + ': ' + errorThrown);
+                        }
+                    })
                 }
             }
-        })
-    })
 
-    $(document).on('input', function (e){
 
-        let id = $(e.target).attr('id');
-        sendSocket(id);
+            $(document).ready(function (){
+                $('#maincontent').keydown(function (event){
+                    if(event.key === 'Enter' || event.keyCode === 13){
+                        event.preventDefault(); // 기본 엔터 동작 막기
+                        if(!event.originalEvent.isComposing){
 
-        let textEleArr = [];
+                            let selection = window.getSelection();
+                            let range = selection.getRangeAt(0);
+                            let node = range.startContainer;
+                            let startOffset = range.startOffset; // 여기를 시작점으로 설정
 
-        $('.textEle').each(function (idx){
-            let textEleId = $(this).attr('id');
-            textEleArr.push({
-                orderNumber: idx,
-                orderEleId: textEleId
-            });
-        })
+        // 새로운 범위를 설정하기 위해 기존 범위를 복제
+                            let newRange = range.cloneRange();
+                            newRange.setStart(range.startContainer, startOffset);
+                            newRange.setEnd(range.startContainer, range.startContainer.length);
 
-        arraysEqual(textEleArr, orderList);
+        // 범위 내의 텍스트 추출
+                            let remainingText = newRange.toString();
+                            console.log(remainingText); // 시작점 뒤의 모든 글자를 출력
 
-    })
-    
-    function sendSocket(id){
-        const htmlContent = $(`#${id}`)[0].outerHTML;
-        socket.send(JSON.stringify({
-            id: id,
-            htmlContent: htmlContent
-        }));
-    }
+                            console.log(selection);
+                            console.log(range);
+                            console.log(node);
 
-</script>
+
+                            // 텍스트 노드일 경우 부모 노드 선택
+                            if (node.nodeType === Node.TEXT_NODE) {
+                                node = node.parentNode;
+                            }
+
+                            const newId = uuid.v4();
+
+                            let parentId = $(node).attr('id');
+
+                            let $liCreate = $('<li>').attr('class', 'li-font textEle').attr('contenteditable', 'true')
+                                    .attr('id', newId);
+
+                            $(`#${parentId}`).after($liCreate);
+
+                            $(`#${newId}`).focus();
+                        }
+                    }
+                })
+            })
+
+            $(document).on('input', function (e){
+
+                let id = $(e.target).attr('id');
+                sendSocket(id);
+
+                let textEleArr = [];
+
+                $('.textEle').each(function (idx){
+                    let textEleId = $(this).attr('id');
+                    textEleArr.push({
+                        orderNumber: idx,
+                        orderEleId: textEleId
+                    });
+                })
+
+                arraysEqual(textEleArr, orderList);
+
+            })
+
+            function sendSocket(id){
+                const htmlContent = $(`#${id}`)[0].outerHTML;
+                socket.send(JSON.stringify({
+                    id: id,
+                    htmlContent: htmlContent
+                }));
+            }
+
+        </script>
+    </th:block>
 </html>
