@@ -13,7 +13,6 @@
     <result column="order_ele_id" property="orderEleId"/>
   </resultMap>
 
-
   <select id="getBrainStormingById" parameterType="String" resultMap="brainstormingResultMap">
     SELECT
       id,
