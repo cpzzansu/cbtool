@@ -50,7 +50,7 @@
         </div>
         <div class="main-form" id="addForm" style="display: none">
             <div class="h-blank-60"></div>
-            <form action="/login" method="POST" id="addMemberForm" data-parsley-validate>
+            <form action="/addMember" method="POST" id="addMemberForm" data-parsley-validate>
                 <div class="mb-3">
                     <label for="addMemberEmail" class="form-label">이메일</label>
                     <input type="email" class="form-control" id="addMemberEmail" required="required" data-parsley-email-check
@@ -66,14 +66,14 @@
                 </div>
                 <div class="mb-3">
                     <label for="addMemberPhone" class="form-label">전화번호</label>
-                    <input type="phone" class="form-control" id="addMemberPhone"  name="memberPhome" required="required" aria-describedby="phoneNumber">
+                    <input type="phone" class="form-control" id="addMemberPhone"  name="memberPhone" required="required" aria-describedby="phoneNumber">
                 </div>
                 <div class="mb-3">
                     <label for="emailCode" class="form-label">이메일 인증코드</label>
                     <input type="text" class="form-control" id="emailCode" required="required" aria-describedby="emailCode" disabled>
                 </div>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-outline-danger" type="submit" id="addMemberBtn">회원가입 신청하기</button>
+                    <button class="btn btn-outline-danger" type="button" id="addMemberBtn">회원가입 신청하기</button>
                 </div>
             </form>
         </div>
@@ -155,7 +155,6 @@
     })
 
     $('#addMemberBtn').on('click', function(e){
-        e.preventDefault();
         let $emailCodeVal = $('#emailCode').val();
         console.log($emailCodeVal === randomEmailCode);
         if($emailCodeVal === randomEmailCode){
@@ -164,6 +163,7 @@
             alert('인증번호가 틀렸습니다.');
         }
     })
+
 
 
 </script>

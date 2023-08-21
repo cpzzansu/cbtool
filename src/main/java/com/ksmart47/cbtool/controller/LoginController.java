@@ -30,8 +30,10 @@ public class LoginController {
 
             String memberName = memberInfo.getMemberName();
             String memberEmail = memberInfo.getMemberEmail();
+            int memberLevel = memberInfo.getMemberLevel();
             session.setAttribute("S_EMAIL", memberEmail);
             session.setAttribute("S_NAME", memberName);
+            session.setAttribute("S_LEVEL", memberLevel);
             model.addAttribute("title", "PCT main");
 
             return "redirect:/collaborationTool/collaborationTool";
@@ -60,4 +62,15 @@ public class LoginController {
 
         return randomCode;
     }
+
+    @PostMapping("/addMember")
+    public String addMember(Model model, Member member){
+        member.setMemberLevel(2);
+        loginService.addMember(member);
+        model.addAttribute("msg", "정상적으로 신청되었습니다.");
+
+        return "main/main";
+    }
+
+
 }
