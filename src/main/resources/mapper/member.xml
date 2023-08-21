@@ -13,11 +13,11 @@
 
   <select id="emailCheck" parameterType="Member" resultType="Member">
     SELECT
-      member_email,
-      member_pw,
-      member_name,
-      member_phone,
-      member_level
+      member_email as memberEmail,
+      member_pw as memberPw,
+      member_name as memberName,
+      member_phone as memberPhone,
+      member_level as memberLevel
     FROM
       member
     WHERE
