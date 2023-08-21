@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeLeaf.org">
+<th:block layout:fragment="customContents">
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="pct-content" id="maincontent">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">전화번호</th>
+                        <th scope="col">승인버튼</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:each="l : ${applicationList}">
+                        <th scope="row">1</th>
+                        <td class="memberEmail" th:text="${l.memberEmail}"></td>
+                        <td class="memberName" th:text="${l.memberName}"></td>
+                        <td class="memberPhone" th:text="${l.memberPhone}"></td>
+                        <td><button type="button" class="btn btn-success">승인</button></td>
+                    </tr>
+
+            </table>
+
+            <div th:each="html : ${htmlList}" th:utext="${html}"></div>
+        </div>
+    </div>
+
+</th:block>
+<th:block layout:fragment="customJs">
+    <script type="text/javascript">
+        $('.btn-success').click(function (){
+            let $memberEmail = $(this).closest('tr').find('.memberEmail').text();
+            console.log($memberEmail);
+            let url = '/collaborationTool/levelUpgrade?memberEmail=' + encodeURIComponent($memberEmail);
+
+            window.location.href = url;
+        })
+    </script>
+</th:block>
+</html>

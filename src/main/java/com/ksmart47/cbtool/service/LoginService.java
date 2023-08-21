@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -82,6 +83,21 @@ public class LoginService {
         }
 
         return randomString.toString();
+    }
+
+    public void addMember(Member member){
+        loginMapper.addMember(member);
+    }
+
+    public List<Member> applicationList(){
+
+        List<Member> memberList = loginMapper.applicationList();
+
+        return memberList;
+    }
+
+    public void levelUpdate(String memberEmail){
+        loginMapper.levelUpdate(memberEmail);
     }
 
 
